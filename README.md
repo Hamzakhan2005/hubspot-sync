@@ -2,6 +2,13 @@
 
 A full stack app that connects to HubSpot with OAuth 2.0, automatically syncs contacts into PostgreSQL through a background job queue, and keeps notes synchronized from the app back to HubSpot.
 
+## Demo and review notes
+- **Demo video:** https://drive.google.com/file/d/1yGf_gvjfQf0rVPSEBG-Rwhb6XkWu4dxr/view?usp=sharing
+- The backend is not deployed. Run it locally with the steps above.
+- The HubSpot app is private-distribution, so reviewers should create their own HubSpot developer app and connect the account that owns it.
+- The Vercel frontend loads but needs the backend running locally to function.
+
+
 ## Architecture
 
 ```
@@ -31,7 +38,7 @@ React (Vercel) --JWT--> API (Express) --> PostgreSQL (source of truth)
 
 Required:
 - HubSpot OAuth (Connect button, callback, encrypted tokens, automatic refresh)
-- Automatic contact sync after connect (no manual button), resumable, duplicate-free, with retries
+- Automatic contact sync after connect (no manual button), with a saved cursor for resuming, upsert-based duplicate prevention, and retries
 - Notes: add in app, store in DB, push to HubSpot with retries and manual retry
 - UI: connection status, contacts list, details, notes, loading/success/error states
 
@@ -41,12 +48,13 @@ Extras:
 ## Setup
 
 Requirements: Node 20+, Docker (for Postgres and Redis), Git.
-
+Docker is only used to run Postgres and Redis. The app itself runs with Node.
 ### 1. Create a HubSpot app (each reviewer needs their own)
 1. Create a free account at developers.hubspot.com and create an app.
 2. In the app's Auth settings add the redirect URL `http://localhost:4000/auth/hubspot/callback`.
 3. Required scopes: `oauth`, `crm.objects.contacts.read`, `crm.objects.contacts.write`.
 4. Copy the Client ID and Client Secret. If the app is private-distribution, it can only be installed in the account that owns it, so connect that same account and add test contacts there.
+5. Add a few test contacts to that HubSpot account (new accounts come with 2 sample contacts).
 
 ### 2. Run locally
 ```bash
@@ -73,13 +81,6 @@ Open http://localhost:5173 and click Connect HubSpot.
 | JWT_SECRET | Random string for signing JWTs |
 | ENCRYPTION_KEY | 64 hex chars (32 bytes): `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"` |
 | WORKER_CONCURRENCY | Optional, parallel jobs per worker (default 5) |
-
-
-## Demo and review notes
-- **Demo video:** https://drive.google.com/file/d/1yGf_gvjfQf0rVPSEBG-Rwhb6XkWu4dxr/view?usp=sharing
-- The backend is not deployed. Run it locally with the steps above.
-- The HubSpot app is private-distribution, so reviewers should create their own HubSpot developer app and connect the account that owns it.
-- The Vercel frontend loads but needs the backend running locally to function.
 
 
 ## Deployment
