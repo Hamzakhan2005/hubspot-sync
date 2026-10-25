@@ -75,7 +75,8 @@ Open http://localhost:5173 and click Connect HubSpot.
 | WORKER_CONCURRENCY | Optional, parallel jobs per worker (default 5) |
 
 
-- **Demo video:** (https://drive.google.com/file/d/1yGf_gvjfQf0rVPSEBG-Rwhb6XkWu4dxr/view?usp=sharing)
+## Demo and review notes
+- **Demo video:** https://drive.google.com/file/d/1yGf_gvjfQf0rVPSEBG-Rwhb6XkWu4dxr/view?usp=sharing
 - The backend is not deployed. Run it locally with the steps above.
 - The HubSpot app is private-distribution, so reviewers should create their own HubSpot developer app and connect the account that owns it.
 - The Vercel frontend loads but needs the backend running locally to function.
