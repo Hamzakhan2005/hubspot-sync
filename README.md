@@ -74,11 +74,16 @@ Open http://localhost:5173 and click Connect HubSpot.
 | ENCRYPTION_KEY | 64 hex chars (32 bytes): `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"` |
 | WORKER_CONCURRENCY | Optional, parallel jobs per worker (default 5) |
 
-Frontend: `VITE_API_URL` (backend base URL).
+
+- **Demo video:** (https://drive.google.com/file/d/1yGf_gvjfQf0rVPSEBG-Rwhb6XkWu4dxr/view?usp=sharing)
+- The backend is not deployed. Run it locally with the steps above.
+- The HubSpot app is private-distribution, so reviewers should create their own HubSpot developer app and connect the account that owns it.
+- The Vercel frontend loads but needs the backend running locally to function.
+
 
 ## Deployment
 - **Frontend (Vercel):** import the repo, set Root Directory to `frontend`, set `VITE_API_URL`.
-- **Backend:** any host that can run two Node processes (`npm run api`, `npm run worker`) plus Postgres and Redis. Update `HUBSPOT_REDIRECT_URI`, `FRONTEND_URL` and the HubSpot app redirect URL to the deployed URLs. If the backend is not deployed, run it locally with the steps above (a tunnel such as ngrok can expose it temporarily).
+- **Backend:** any host that can run two Node processes (`npm run api`, `npm run worker`) plus Postgres and Redis. Update `HUBSPOT_REDIRECT_URI`, `FRONTEND_URL` and the HubSpot app redirect URL to the deployed URLs. 
 
 ## Assumptions
 - One connected HubSpot account per session; the session JWT identifies the account (no separate user table).
